@@ -5,6 +5,8 @@ public class StateMachine
 {
     private Dictionary<Type, List<Transition>> _transitions = new Dictionary<Type, List<Transition>>();
 
+    public event Action<IState> onStateChanged;
+
     private IState _currentState;
 
     public void Tick()
@@ -27,6 +29,7 @@ public class StateMachine
 
         _currentState?.OnExit();
         _currentState = state;
+        onStateChanged?.Invoke(state);
         _currentState?.OnEnter();
     }
 
