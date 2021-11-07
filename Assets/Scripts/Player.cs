@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _diveForce;
+    [SerializeField] private float _inAirMoveForce;
 
     [SerializeField] private LayerMask _groundLayers;
     [SerializeField] private Collider2D _groundedChecker;
@@ -14,7 +15,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rb;
     private Animator _animator;
 
-    private StateMachine _playerStateMachine = new StateMachine();
+    public StateMachine playerStateMachine { get; } = new StateMachine();
     
     private void Awake()
     {
@@ -22,24 +23,28 @@ public class Player : MonoBehaviour
         _animator = GetComponent<Animator>();
         
         PlayerGrounded playerGrounded = new PlayerGrounded(_rb, _animator, transform, _moveSpeed, _jumpForce);
-        PlayerAirborne playerAirborne = new PlayerAirborne(_rb, _animator, transform, _diveForce);
+        PlayerAirborne playerAirborne = new PlayerAirborne(_rb, _animator, transform, _diveForce, _inAirMoveForce, _moveSpeed);
         PlayerCasting playerCasting = new PlayerCasting(_rb, _animator);
+        PlayerDiving _playerDiving = new PlayerDiving(_animator);
 
-        _playerStateMachine.AddTransition(playerGrounded, playerAirborne, isAirborne());
-        _playerStateMachine.AddTransition(playerAirborne, playerGrounded, isGrounded());
-        _playerStateMachine.AddTransition(playerGrounded, playerCasting, startCasting());
-        _playerStateMachine.AddTransition(playerCasting, playerGrounded, stopCasting());
+        playerStateMachine.AddTransition(playerGrounded, playerAirborne, isAirborne());
+        playerStateMachine.AddTransition(playerAirborne, playerGrounded, isGrounded());
+        playerStateMachine.AddTransition(playerGrounded, playerCasting, startCasting());
+        playerStateMachine.AddTransition(playerCasting, playerGrounded, stopCasting());
+        playerStateMachine.AddTransition(playerAirborne, _playerDiving, isDiving());
+        playerStateMachine.AddTransition(_playerDiving, playerGrounded, isGrounded());
 
         Func<bool> isAirborne() => () => _groundedChecker.IsTouchingLayers(_groundLayers) == false;
         Func<bool> isGrounded() => () => _groundedChecker.IsTouchingLayers(_groundLayers);
         Func<bool> startCasting() => () => Input.GetKey(KeyCode.LeftShift);
         Func<bool> stopCasting() => () => Input.GetKey(KeyCode.LeftShift) == false;
+        Func<bool> isDiving() => () => playerAirborne.hasDived;
 
-        _playerStateMachine.SetState(playerGrounded);
+        playerStateMachine.SetState(playerGrounded);
     }
 
     private void Update()
     {
-        _playerStateMachine.Tick();
+        playerStateMachine.Tick();
     }
 }
