@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D _rb;
     private Animator _animator;
-    private SpriteRenderer _spriteRenderer;
 
     private StateMachine _playerStateMachine = new StateMachine();
     
@@ -21,11 +20,10 @@ public class Player : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         
-        PlayerGrounded playerGrounded = new PlayerGrounded(_rb, _animator, _spriteRenderer, _moveSpeed, _jumpForce);
-        PlayerAirborne playerAirborne = new PlayerAirborne(_rb, _animator, _diveForce);
-        
+        PlayerGrounded playerGrounded = new PlayerGrounded(_rb, _animator, transform, _moveSpeed, _jumpForce);
+        PlayerAirborne playerAirborne = new PlayerAirborne(_rb, _animator, transform, _diveForce);
+
         _playerStateMachine.AddTransition(playerGrounded, playerAirborne, isAirborne());
         _playerStateMachine.AddTransition(playerAirborne, playerGrounded, isGrounded());
 

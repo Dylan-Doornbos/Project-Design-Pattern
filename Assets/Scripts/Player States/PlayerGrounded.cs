@@ -4,17 +4,17 @@ public class PlayerGrounded : IState
 {
     private Rigidbody2D _rb;
     private Animator _animator;
-    private SpriteRenderer _spriteRenderer;
+    private Transform _playerTransform;
     private float _moveSpeed;
     private float _jumpForce;
 
-    public PlayerGrounded(Rigidbody2D rb, Animator animator, SpriteRenderer spriteRenderer, float moveSpeed, float jumpForce)
+    public PlayerGrounded(Rigidbody2D rb, Animator animator, Transform playerTransform, float moveSpeed, float jumpForce)
     {
         _rb = rb;
         _animator = animator;
+        _playerTransform = playerTransform;
         _moveSpeed = moveSpeed;
         _jumpForce = jumpForce;
-        _spriteRenderer = spriteRenderer;
     }
     
     public void Tick()
@@ -24,7 +24,6 @@ public class PlayerGrounded : IState
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-            _animator.SetTrigger("jump");
         }
     }
 
@@ -37,16 +36,16 @@ public class PlayerGrounded : IState
 
         if (moveDirection.x < 0)
         {
-            _spriteRenderer.flipX = true;
+            _playerTransform.localScale = new Vector3(-1, 1, 1);
         }
         else if (moveDirection.x > 0)
         {
-            _spriteRenderer.flipX = false;
+            _playerTransform.localScale = new Vector3(1, 1, 1);
         }
         
         _animator.SetFloat("moveSpeed", Mathf.Abs(moveDirection.x));
 
-        Vector2 movement = moveDirection.normalized * Time.deltaTime * _moveSpeed;
+        Vector2 movement = moveDirection.normalized * Time.fixedDeltaTime * _moveSpeed;
         movement.y = _rb.velocity.y;
 
         _rb.velocity = movement;
