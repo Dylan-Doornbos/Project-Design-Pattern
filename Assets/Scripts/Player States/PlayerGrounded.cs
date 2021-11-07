@@ -24,6 +24,7 @@ public class PlayerGrounded : IState
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            _animator.SetTrigger("jump");
         }
     }
 

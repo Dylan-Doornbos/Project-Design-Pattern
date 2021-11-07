@@ -3,11 +3,13 @@ using UnityEngine;
 public class PlayerAirborne : IState
 {
     private Rigidbody2D _rb;
+    private Animator _animator;
     private float _diveForce;
 
-    public PlayerAirborne(Rigidbody2D rb, float diveForce)
+    public PlayerAirborne(Rigidbody2D rb, Animator animator, float diveForce)
     {
         _rb = rb;
+        _animator = animator;
         _diveForce = diveForce;
     }
     
@@ -21,7 +23,10 @@ public class PlayerAirborne : IState
         }
     }
 
-    public void OnEnter() { }
+    public void OnEnter()
+    {
+        _animator.SetBool("isGrounded", false);
+    }
 
     public void OnExit() { }
 }

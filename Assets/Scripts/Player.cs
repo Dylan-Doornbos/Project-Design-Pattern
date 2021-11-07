@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         
         PlayerGrounded playerGrounded = new PlayerGrounded(_rb, _animator, _spriteRenderer, _moveSpeed, _jumpForce);
-        PlayerAirborne playerAirborne = new PlayerAirborne(_rb, _diveForce);
+        PlayerAirborne playerAirborne = new PlayerAirborne(_rb, _animator, _diveForce);
         
         _playerStateMachine.AddTransition(playerGrounded, playerAirborne, isAirborne());
         _playerStateMachine.AddTransition(playerAirborne, playerGrounded, isGrounded());
