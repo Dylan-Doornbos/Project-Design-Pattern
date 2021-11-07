@@ -758,6 +758,7 @@ MonoBehaviour:
   _moveSpeed: 300
   _jumpForce: 10
   _diveForce: 15
+  _inAirMoveForce: 100
   _groundLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -889,7 +890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b2514ead55fe641882d27fa1b7d2e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectilePrefab: {fileID: 7884682273316327810, guid: 94328b6a9e926d343a37a011a01759eb, type: 3}
+  _projectilePool: {fileID: 11400000, guid: 67215277d8c2b9544bb83280bdbdf79b, type: 2}
   _projectileSpawnPoint: {fileID: 670536882}
 --- !u!95 &581559375
 Animator:
@@ -1061,6 +1062,7 @@ GameObject:
   - component: {fileID: 1151796799}
   - component: {fileID: 1151796798}
   - component: {fileID: 1151796797}
+  - component: {fileID: 1151796801}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1149,6 +1151,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1151796801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151796796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d9ec6e9d87298d4cb2caaf130017297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 581559369}
+  _currentStateTxt: {fileID: 168805141}
 --- !u!1 &1250359266
 GameObject:
   m_ObjectHideFlags: 0
