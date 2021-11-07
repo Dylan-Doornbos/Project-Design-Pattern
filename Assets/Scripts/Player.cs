@@ -23,12 +23,17 @@ public class Player : MonoBehaviour
         
         PlayerGrounded playerGrounded = new PlayerGrounded(_rb, _animator, transform, _moveSpeed, _jumpForce);
         PlayerAirborne playerAirborne = new PlayerAirborne(_rb, _animator, transform, _diveForce);
+        PlayerCasting playerCasting = new PlayerCasting(_rb, _animator);
 
         _playerStateMachine.AddTransition(playerGrounded, playerAirborne, isAirborne());
         _playerStateMachine.AddTransition(playerAirborne, playerGrounded, isGrounded());
+        _playerStateMachine.AddTransition(playerGrounded, playerCasting, startCasting());
+        _playerStateMachine.AddTransition(playerCasting, playerGrounded, stopCasting());
 
         Func<bool> isAirborne() => () => _groundedChecker.IsTouchingLayers(_groundLayers) == false;
         Func<bool> isGrounded() => () => _groundedChecker.IsTouchingLayers(_groundLayers);
+        Func<bool> startCasting() => () => Input.GetKey(KeyCode.LeftShift);
+        Func<bool> stopCasting() => () => Input.GetKey(KeyCode.LeftShift) == false;
 
         _playerStateMachine.SetState(playerGrounded);
     }
