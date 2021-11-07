@@ -12,14 +12,18 @@ public class Player : MonoBehaviour
     [SerializeField] private Collider2D _groundedChecker;
 
     private Rigidbody2D _rb;
-    
+    private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
+
     private StateMachine _playerStateMachine = new StateMachine();
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         
-        PlayerGrounded playerGrounded = new PlayerGrounded(_rb, _moveSpeed, _jumpForce);
+        PlayerGrounded playerGrounded = new PlayerGrounded(_rb, _animator, _spriteRenderer, _moveSpeed, _jumpForce);
         PlayerAirborne playerAirborne = new PlayerAirborne(_rb, _diveForce);
         
         _playerStateMachine.AddTransition(playerGrounded, playerAirborne, isAirborne());
