@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Command Pattern Demo.unity
-    guid: 93f13558a4c3fe74ebeb614a49db124f
+    path: Assets/Scenes/Demo Platformer.unity
+    guid: cf32667161d97e240811a5b9cbc6e729
   m_configObjects: {}

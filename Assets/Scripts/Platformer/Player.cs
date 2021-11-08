@@ -21,7 +21,10 @@ public class Player : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        
+    }
+
+    private void Start()
+    {
         //Create states
         PlayerGrounded playerGrounded = new PlayerGrounded(_rb, _animator, transform, _moveSpeed, _jumpForce);
         PlayerAirborne playerAirborne = new PlayerAirborne(_rb, _animator, transform, _inAirMoveForce, _moveSpeed);
