@@ -3,22 +3,22 @@ using System.Collections.Generic;
 
 public class StateMachine
 {
+    private IState _currentState;
     private Dictionary<Type, List<Transition>> _transitions = new Dictionary<Type, List<Transition>>();
 
     public event Action<IState> onStateChanged;
 
-    private IState _currentState;
 
     public void Tick()
     {
-        Transition transition = GetTransition();
+        Transition transition = getValidTransition();
 
-        while (transition != null)
+        //Transition to a different state if possible
+        if (transition != null)
         {
             SetState(transition.targetState);
-            transition = GetTransition();
         }
-        
+
         _currentState?.Tick();
     }
 
@@ -46,13 +46,15 @@ public class StateMachine
         transitions.Add(new Transition(to, condition));
     }
 
-    public Transition GetTransition()
+    private Transition getValidTransition()
     {
-        List<Transition> transitions;
+        List<Transition> transitionsFromCurrentState;
 
-        if (_transitions.TryGetValue(_currentState.GetType(), out transitions))
-        {        
-            foreach (Transition transition in transitions)
+        //Get a list of transitions from the Dictionary that can occur from the current state
+        if (_transitions.TryGetValue(_currentState.GetType(), out transitionsFromCurrentState))
+        {
+            //Return a transition that has their condition met
+            foreach (Transition transition in transitionsFromCurrentState)
             {
                 if (transition.condition())
                 {

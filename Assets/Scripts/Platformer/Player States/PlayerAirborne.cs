@@ -2,22 +2,18 @@ using UnityEngine;
 
 public class PlayerAirborne : IState
 {
-    public bool hasDived { get; private set; }
-
     private Rigidbody2D _rb;
     private Animator _animator;
     private Transform _playerTransform;
-    private float _diveForce;
     private float _moveForce;
     private float _maxMoveSpeed;
 
-    public PlayerAirborne(Rigidbody2D rb, Animator animator, Transform playerTransform, float diveForce,
+    public PlayerAirborne(Rigidbody2D rb, Animator animator, Transform playerTransform,
         float moveForce, float maxMoveSpeed)
     {
         _rb = rb;
         _animator = animator;
         _playerTransform = playerTransform;
-        _diveForce = diveForce;
         _moveForce = moveForce;
         _maxMoveSpeed = maxMoveSpeed;
     }
@@ -25,21 +21,6 @@ public class PlayerAirborne : IState
     public void Tick()
     {
         handleMovement();
-
-        if (!hasDived && Input.GetKeyDown(KeyCode.Space))
-        {
-            float velocityX = _diveForce;
-
-            if (_playerTransform.localScale.x < 0)
-            {
-                velocityX = -velocityX;
-            }
-
-            Vector2 diveVelocity = new Vector2(velocityX, -_diveForce);
-            _rb.velocity = diveVelocity;
-
-            hasDived = true;
-        }
     }
 
     private void handleMovement()
@@ -76,7 +57,6 @@ public class PlayerAirborne : IState
 
     public void OnEnter()
     {
-        hasDived = false;
         _animator.SetBool("isGrounded", false);
         _animator.SetTrigger("jump");
     }

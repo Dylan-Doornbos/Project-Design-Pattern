@@ -22,23 +22,27 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         
+        //Create states
         PlayerGrounded playerGrounded = new PlayerGrounded(_rb, _animator, transform, _moveSpeed, _jumpForce);
-        PlayerAirborne playerAirborne = new PlayerAirborne(_rb, _animator, transform, _diveForce, _inAirMoveForce, _moveSpeed);
+        PlayerAirborne playerAirborne = new PlayerAirborne(_rb, _animator, transform, _inAirMoveForce, _moveSpeed);
         PlayerCasting playerCasting = new PlayerCasting(_rb, _animator);
-        PlayerDiving _playerDiving = new PlayerDiving(_animator);
+        PlayerDiving playerDiving = new PlayerDiving(_rb, _animator, transform, _diveForce);
 
+        //Create transitions between states
         playerStateMachine.AddTransition(playerGrounded, playerAirborne, isAirborne());
-        playerStateMachine.AddTransition(playerAirborne, playerGrounded, isGrounded());
         playerStateMachine.AddTransition(playerGrounded, playerCasting, startCasting());
+        playerStateMachine.AddTransition(playerAirborne, playerGrounded, isGrounded());
+        playerStateMachine.AddTransition(playerAirborne, playerDiving, startDiving());
+        playerStateMachine.AddTransition(playerDiving, playerGrounded, isGrounded());
+        
         playerStateMachine.AddTransition(playerCasting, playerGrounded, stopCasting());
-        playerStateMachine.AddTransition(playerAirborne, _playerDiving, isDiving());
-        playerStateMachine.AddTransition(_playerDiving, playerGrounded, isGrounded());
+        Func<bool> stopCasting() => () => Input.GetKeyUp(KeyCode.LeftShift);
 
-        Func<bool> isAirborne() => () => _groundedChecker.IsTouchingLayers(_groundLayers) == false;
+        //Conditions for the transitions
         Func<bool> isGrounded() => () => _groundedChecker.IsTouchingLayers(_groundLayers);
+        Func<bool> isAirborne() => () => _groundedChecker.IsTouchingLayers(_groundLayers) == false;
         Func<bool> startCasting() => () => Input.GetKey(KeyCode.LeftShift);
-        Func<bool> stopCasting() => () => Input.GetKey(KeyCode.LeftShift) == false;
-        Func<bool> isDiving() => () => playerAirborne.hasDived;
+        Func<bool> startDiving() => () => Input.GetKeyDown(KeyCode.Space);
 
         playerStateMachine.SetState(playerGrounded);
     }

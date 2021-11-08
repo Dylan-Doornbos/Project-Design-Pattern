@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
-    [SerializeField] private Pool _projectilePool;
     [SerializeField] private Transform _projectileSpawnPoint;
-
+    
+    [SerializeField] private Pool _projectilePool;
+    
     public void Attack()
     {
-        Poolable poolable = _projectilePool.GetObject();
-        poolable.transform.position = _projectileSpawnPoint.position;
-        poolable.gameObject.SetActive(true);
+        Poolable obj = _projectilePool.GetObject();
+        obj.transform.position = _projectileSpawnPoint.position;
+        obj.gameObject.SetActive(true);
 
-        Projectile projectile = poolable.GetComponent<Projectile>();
+        Projectile projectile = obj.GetComponent<Projectile>();
 
         if (projectile != null)
         {

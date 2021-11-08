@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Poolable : MonoBehaviour
 {
-    private Pool _pool;
+    private Pool _originPool;
 
     public void ReturnToPool()
     {
-        _pool.AddToPool(this);
+        _originPool.AddToPool(this);
     }
 
-    public void SetPool(Pool pool)
+    public void SetOriginPool(Pool pool)
     {
-        _pool = pool;
+        _originPool = pool;
     }
 }

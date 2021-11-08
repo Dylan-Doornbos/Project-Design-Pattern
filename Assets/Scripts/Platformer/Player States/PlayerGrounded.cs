@@ -20,7 +20,11 @@ public class PlayerGrounded : IState
     public void Tick()
     {
         handleMovement();
+        handleJumping();
+    }
 
+    private void handleJumping()
+    {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);

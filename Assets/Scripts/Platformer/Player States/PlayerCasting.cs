@@ -15,7 +15,6 @@ public class PlayerCasting : IState
 
     public void OnEnter()
     {
-        _animator.SetTrigger("cast");
         _animator.SetBool("isCasting", true);
         _rb.velocity = Vector2.zero;
     }

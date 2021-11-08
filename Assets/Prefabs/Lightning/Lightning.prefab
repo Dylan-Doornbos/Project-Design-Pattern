@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5239457546041346832}
   - component: {fileID: 9110500985154777311}
   - component: {fileID: 6917159828817114037}
-  - component: {fileID: 7884682273316327810}
   - component: {fileID: 8401152479068601438}
   - component: {fileID: -5108731797202050868}
+  - component: {fileID: 7884682273316327810}
   - component: {fileID: 6208406232538213981}
   m_Layer: 0
   m_Name: Lightning
@@ -106,19 +106,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7884682273316327810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4517936842159272018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cb3d1e4d63fadb4f8c01b6d360fa6d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveSpeed: 10
 --- !u!61 &8401152479068601438
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -166,6 +153,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7884682273316327810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4517936842159272018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb3d1e4d63fadb4f8c01b6d360fa6d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 10
 --- !u!114 &6208406232538213981
 MonoBehaviour:
   m_ObjectHideFlags: 0
