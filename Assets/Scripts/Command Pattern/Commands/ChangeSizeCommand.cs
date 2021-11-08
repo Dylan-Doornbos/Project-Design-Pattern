@@ -12,12 +12,14 @@ public class ChangeSizeCommand : Command
         _newSize = newSize;
     }
     
+    //Store the current scale and set the new one
     public override void Execute()
     {
         _oldSize = _transform.localScale;
         _transform.localScale = _newSize;
     }
 
+    //Go back to the previous scale
     public override void Undo()
     {
         _transform.localScale = _oldSize;
